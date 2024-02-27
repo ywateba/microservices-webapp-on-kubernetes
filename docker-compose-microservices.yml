@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  backend-feed:
+    image: arywatt/udagram-api-feed:0.1.0
+    container_name: udagram-api-feed
+    env_file:
+      - env_vars
+    build:
+      context: ./udagram-api-feed
+      dockerfile: Dockerfile
+
+  backend-user:
+    image: arywatt/udagram-api-user:0.1.0
+    container_name: udagram-api-user
+    env_file:
+      - env_vars
+    build:
+      context: ./udagram-api-user
+      dockerfile: Dockerfile
+
+  frontend:
+    image: arywatt/udagram-frontend:0.1.0
+    container_name: udagram-frontend
+    env_file:
+      - env_vars
+    build:
+      context: ./udagram-frontend
+      dockerfile: Dockerfile
+
+
+  reverseproxy:
+    image: arywatt/udagram-reverse-proxy:0.1.0
+    container_name: udagram-reverse-proxy
+    env_file:
+      - env_vars
+    build:
+      context: ./udagram-reverse-proxy
+      dockerfile: ./udagram-reverse-proxy/Dockerfile
+    ports:
+      - "8080:8080"
+
+  postgres_server:
+    image: postgres:latest
+    container_name: postgres_server
+    env_file:
+      - env_vars
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # postgres_client:
+  #   image: postgres:latest
+  #   container_name: postgres_client
+  #   env_file:
+  #     - env_vars
+  #   depends_on:
+  #     - postgres_server
+  #   environment:
+  #     PGPASSWORD: ${POSTGRES_PASSWORD}
+  #   entrypoint: ["psql", "-h", "postgres_server", "-U", "user", "-d", "postgres", "-c"]
+  #   command: ["SELECT 'Hello, PostgreSQL server!' AS greeting;"]
+
+volumes:
+  postgres_data:
+    name: postgres_db

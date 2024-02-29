@@ -4,8 +4,6 @@ services:
   backend-feed:
     image: arywatt/udagram-api-feed:0.1.0
     container_name: udagram-api-feed
-    env_file:
-      - env_vars
     build:
       context: ./udagram-api-feed
       dockerfile: Dockerfile
@@ -13,8 +11,6 @@ services:
   backend-user:
     image: arywatt/udagram-api-user:0.1.0
     container_name: udagram-api-user
-    env_file:
-      - env_vars
     build:
       context: ./udagram-api-user
       dockerfile: Dockerfile
@@ -22,29 +18,25 @@ services:
   frontend:
     image: arywatt/udagram-frontend:0.1.0
     container_name: udagram-frontend
-    env_file:
-      - env_vars
     build:
       context: ./udagram-frontend
       dockerfile: Dockerfile
+    ports:
+      - "8100:80"
 
 
   reverseproxy:
     image: arywatt/udagram-reverse-proxy:0.1.0
     container_name: udagram-reverse-proxy
-    env_file:
-      - env_vars
     build:
       context: ./udagram-reverse-proxy
-      dockerfile: ./udagram-reverse-proxy/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
 
   postgres_server:
     image: postgres:latest
     container_name: postgres_server
-    env_file:
-      - env_vars
     environment:
       POSTGRES_USER: ${POSTGRES_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

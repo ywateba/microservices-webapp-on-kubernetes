@@ -4,36 +4,30 @@ services:
   backend:
     image: arywatt/udagram-api:0.1.0
     container_name: monolith-udagram-api
-    env_file:
-      - env_vars
-    # build:
-    #   context: ./udagram-api-feed
-    #   dockerfile: Dockerfile
-    # ports:
-    #  - "8080:8080"
-    network_mode: "host"
+    build:
+      context: ./udagram-api
+      dockerfile: Dockerfile
+    ports:
+     - "8080:8080"
+
     depends_on:
       - postgres_server
 
   frontend:
     image: arywatt/udagram-frontend:0.1.0
     container_name: monolith-udagram-frontend
-    env_file:
-      - env_vars
     build:
       context: ./udagram-frontend
       dockerfile: Dockerfile
-    # ports:
-    #   - "8081:80"
-    network_mode: "host"
+    ports:
+      - "8100:80"
+
     depends_on:
       - backend
 
   postgres_server:
     image: postgres:latest
     container_name: monolith-postgres_server
-    env_file:
-      - env_vars
     environment:
       POSTGRES_USER: ${POSTGRES_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -42,7 +36,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    network_mode: "host"
+
 
   # postgres_client:
   #   image: postgres:latest

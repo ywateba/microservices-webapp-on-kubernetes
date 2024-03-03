@@ -6,6 +6,6 @@ export POSTGRES_HOST=localhost
 export POSTGRES_DB=postgres
 export AWS_BUCKET=ary-my-bucket
 export AWS_REGION=us-east-1
-export AWS_PROFILE=test
+export AWS_PROFILE=perso
 export JWT_SECRET=testing
 export URL=http://localhost:8100

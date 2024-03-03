@@ -1,0 +1,37 @@
+name: Feed workflow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'udagram-api-feed/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'udagram-api-feed/**'
+  workflow_dispatch:
+
+env:
+  ECR_REGISTRY: arywatt
+  ECR_REPOSITORY: udagram-api-feed
+  PATH: udagram-api-feed
+  TAG: ${{github.sha}}
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+
+
+    - name: Build, tag, and push image to Docker hub
+      run: |
+        docker build -t $ECR_REPOSITORY:$TAG ./$PATH
+
+
+
+    - name: Login and push to DockerHub
+      run: |
+        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$TAG

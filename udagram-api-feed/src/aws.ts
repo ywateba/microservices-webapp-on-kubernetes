@@ -9,8 +9,8 @@ AWS.config.credentials = credentials;
 export const s3 = new AWS.S3({
   signatureVersion: 'v4',
   region: config.aws_region,
-  endpoint: 'http://localhost:4566', //needed with localstack
-  s3ForcePathStyle: true, // needed with LocalStack
+  // endpoint: 'http://localhost:4566', //needed with localstack
+  // s3ForcePathStyle: true, // needed with LocalStack
   params: {Bucket: config.aws_media_bucket},
 });
 

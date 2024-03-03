@@ -23,13 +23,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-
-
-    - name: Build, tag, and push image to Docker hub
+    - name: Build and  tag image
       run: |
         docker build -t $ECR_REPOSITORY:$TAG ./$PATH
-
-
 
     - name: Login and push to DockerHub
       run: |

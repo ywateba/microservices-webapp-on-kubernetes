@@ -15,10 +15,10 @@ FROM node:16-alpine3.18 AS runner
 ENV NODE_ENV=production
 WORKDIR /app
 
-COPY --from=builder /app/www /app/www
-
 COPY package*.json ./
 RUN npm install --production
+
+COPY --from=builder /app/www /app/www
 
 EXPOSE 8080
 CMD [ "npm", "run", "prod" ]

@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t << parameters.image_name >> ./<< parameters.folder >>
+            docker build -t << parameters.image_name >>  << parameters.folder >>
       - run:
           name: Login to Docker Hub
           command: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin
@@ -32,19 +32,19 @@ workflows:
           name: build_and_push_feed
           folder: udagram-api-feed
           image_name: arywatt/udagram-api-feed:0.2.0
-          context: your-context
+          context: ./
       - build_and_push:
           name: build_and_push_user
           folder: udagram-api-user
           image_name: arywatt/udagram-api-user:0.2.0
-          context: ./udagram-api-user
+          context: ./
       - build_and_push:
           name: build_and_push_frontend
           folder: udagram-frontend
           image_name: arywatt/udagram-frontend:0.1.0
-          context: ./udagram-frontend
+          context: ./
       - build_and_push:
           name: build_and_push_reverseproxy
           folder: reverseproxy
           image_name: arywatt/reverseproxy:0.1.0
-          context: ./reverseproxy
+          context: ./

@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   backend-feed:
-    image: arywatt/udagram-api-feed:0.1.0
+    image: arywatt/udagram-api-feed:0.3.0
     container_name: udagram-api-feed
     env_file:
       - api.env
@@ -10,11 +10,12 @@ services:
     build:
       context: ./udagram-api-feed
       dockerfile: Dockerfile
+      # target: runner
     depends_on:
       - postgres_server
 
   backend-user:
-    image: arywatt/udagram-api-user:0.1.0
+    image: arywatt/udagram-api-user:0.3.0
     container_name: udagram-api-user
     env_file:
       - api.env
@@ -22,17 +23,19 @@ services:
     build:
       context: ./udagram-api-user
       dockerfile: Dockerfile
+      target: runner
     depends_on:
       - postgres_server
 
   frontend:
-    image: arywatt/udagram-frontend:0.1.0
+    image: arywatt/udagram-frontend:0.3.0
     container_name: udagram-frontend
     env_file:
      - api.env
     build:
       context: ./udagram-frontend
       dockerfile: Dockerfile
+
     ports:
       - "8100:80"
     depends_on:
@@ -41,11 +44,12 @@ services:
 
 
   reverseproxy:
-    image: arywatt/udagram-reverse-proxy:0.1.0
+    image: arywatt/reverseproxy:0.3.0
     container_name: udagram-reverse-proxy
     build:
       context: ./udagram-reverse-proxy
       dockerfile: Dockerfile
+
     ports:
       - "8080:8080"
     depends_on:

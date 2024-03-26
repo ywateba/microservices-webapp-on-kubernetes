@@ -15,7 +15,7 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t << parameters.image_name >>  ./<< parameters.folder >>
+            docker build -t << parameters.image_name >>:0.3.0  ./<< parameters.folder >>
       - run:
           name: Login to Docker Hub
           command: echo "$DOCKERHUB_PASSWORD" | docker login --username $DOCKERHUB_USERNAME --password-stdin

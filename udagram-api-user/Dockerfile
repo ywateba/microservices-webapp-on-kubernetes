@@ -1,4 +1,4 @@
-FROM node:16-alpine3.18 AS builder
+FROM node:16-alpine3.18 AS user-builder
 ## Create app directory
 WORKDIR /app
 ## Install app dependencies
@@ -11,14 +11,14 @@ RUN npm run build
 CMD [ "npm", "run", "prod" ]
 
 
-FROM node:16-alpine3.18 AS runner
+FROM node:16-alpine3.18 AS user-runner
 ENV NODE_ENV=production
 WORKDIR /app
 
 COPY package*.json ./
 RUN npm install --production
 
-COPY --from=builder /app/www ./
+COPY --from=user-builder /app/www ./www
 
 EXPOSE 8080
 CMD [ "npm", "run", "prod" ]

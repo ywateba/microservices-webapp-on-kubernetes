@@ -7,8 +7,8 @@ COPY package*.json ./
 RUN npm install
 ## Bundle app source
 COPY . .
-EXPOSE 8080
-CMD [ "npm", "run", "build" ]
+RUN npm run build
+CMD [ "npm", "run", "prod" ]
 
 
 FROM node:16-alpine3.18 AS runner
@@ -18,7 +18,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install --production
 
-COPY --from=builder /app/www /app/www
+COPY --from=builder /app/www ./
 
 EXPOSE 8080
 CMD [ "npm", "run", "prod" ]

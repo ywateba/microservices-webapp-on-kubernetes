@@ -35,3 +35,48 @@ export function getPutSignedUrl( key: string ): string {
     Expires: signedUrlExpireSeconds,
   });
 }
+
+// const cloudwatchlogs = new AWS.CloudWatchLogs();
+// // Create Log Group
+// cloudwatchlogs.createLogGroup({ logGroupName: 'YourLogGroupName' }, function(err, data) {
+//   if (err) console.log(err, err.stack);
+//   else     console.log(data);
+// });
+
+// // Create Log Stream
+// cloudwatchlogs.createLogStream({
+//   logGroupName: 'YourLogGroupName',
+//   logStreamName: 'YourLogStreamName'
+// }, function(err, data) {
+//   if (err) console.log(err, err.stack);
+//   else     console.log(data);
+// });
+
+
+// let sequenceToken = null; // Initialize sequence token
+
+// function sendLog(message) {
+//   const params = {
+//     logEvents: [
+//       {
+//         message: JSON.stringify(message),
+//         timestamp: new Date().getTime(),
+//       },
+//     ],
+//     logGroupName: 'YourLogGroupName',
+//     logStreamName: 'YourLogStreamName',
+//     sequenceToken: sequenceToken, // Required only for existing streams
+//   };
+
+//   cloudwatchlogs.putLogEvents(params, function(err, data) {
+//     if (err) {
+//       console.log(err, err.stack);
+//     } else {
+//       console.log('Log event sent:', data);
+//       sequenceToken = data.nextSequenceToken; // Update the sequence token
+//     }
+//   });
+// }
+
+// // Example log message
+// sendLog({ level: 'info', message: 'This is a test log message' });
